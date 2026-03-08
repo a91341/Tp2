@@ -50,6 +50,7 @@ class GestorStock:
 
     @quantidade.setter
     def quantidade(self, valor: int):
+     # """Define a quantidade de ações em carteira."""
         self.__quantidade = int(valor) if valor >= 0 else 0
 
     @property
@@ -69,30 +70,53 @@ class GestorStock:
 
     @lucro_realizado.setter
     def lucro_realizado(self, valor: float):
+     # """Define o lucro ou prejuízo relizado."""
         self.__lucro_realizado = float(valor)
 
     def comprar(self, quantidade: int, preco: float) -> bool:
-        """Realiza uma compra de ações.
-        Aumenta a quantidade em carteira, estipula o novo preço médio de compra através da média pesada, e atualiza o preço de mercado atual.
-        Retorna True no sucesso e False no caso de inputs (quantidade ou preco) não serem > 0."""
-        pass
+     # """Realiza uma compra de ações.
+        if quantidade <= 0 or preco <= 0:
+            return False
+        total_antigo = self.__preco_medio_compra * self.__quantidade
+        total_novo = preco * quantidade
+        nova_quantidade = self.__quantidade + quantidade
+
+        self.__preco_medio_compra = (total_antigo + total_novo) / nova_quantidade
+        self.__quantidade = nova_quantidade
+        self.__preco_atual = preco
+
+        return True
 
     def vender(self, quantidade: int, preco: float) -> bool:
-        """Realiza uma venda de ações.
-        Diminui a quantidade em carteira, atualiza o preço atual, e soma a margem (lucro ou prejuízo) face ao preço_medio_compra ao histórico de lucro_realizado.
-        Retorna True no sucesso e False no insucesso (seja por parâmetros errados <= 0 ou pela inexistência de posições suficientes)."""
-        pass
+     # """Realiza uma venda de ações.
+        if quantidade <= 0 or preco <= 0:
+            return False
+        
+        if quantidade > self.__quantidade:
+            return False
+        
+        lucro = (preco - self.__preco_medio_compra) * quantidade
+        self.__lucro_realizado += lucro
 
+        self.__quantidade = self.__quantidade - quantidade
+        self.__preco_atual = preco
+
+        return True
+    
     def valor_total(self) -> float:
-        """Calcula o valor total da posição na carteira (quantidade * preço_atual)."""
-        pass
+     # """Calcula o valor total da posição na carteira (quantidade * preço_atual)."""
+        return self.__quantidade * self.__preco_atual    
 
     def lucro_potencial(self) -> float:
-        """Apurar rentabilidade não realizada ao valor de cotação presente.
-        Diferença entre a avaliação do ativo aos preços de hoje, e a avaliação ao preço que foi comprado."""
-        pass
-
+     # """Apurar rentabilidade não realizada ao valor de cotação presente."""
+        return (self.__preco_atual - self.__preco_medio_compra) * self.__quantidade
+       
     def receber_dividendo(self, dividendo_por_acao: float) -> float:
-        """Apurar dividendos totais com o número de ações em posse, adicionando diretamente ao lucro_realizado da posição.
-        Retorna o fundo depositado (que será 0.0 se for passado um valor inválido <= 0)."""
-        pass
+     # """Apurar dividendos totais """
+        if dividendo_por_acao <= 0:
+            return 0.0
+        
+        montante = dividendo_por_acao * self.__quantidade
+        self.__lucro_realizado += montante
+        return montante
+            
