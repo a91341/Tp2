@@ -3,10 +3,20 @@
 class GestorStock:
 
     def __init__(self, simbolo: str, nome: str, preco_atual=0.0, quantidade=0):
-        self.__simbolo = simbolo
-        self.__nome = nome
-        self.__preco_atual = preco_atual
-        self.__quantidade = quantidade
+        self.__simbolo = ""
+        self.__nome = ""
+        self.__preco_atual = 0.0
+        self.__quantidade = 0
+        self.__preco_medio_compra = 0.0
+        self.__lucro_realizado = 0.0
+
+        self.simbolo = simbolo
+        self.nome = nome
+        self.preco_atual = preco_atual
+        self.quantidade = quantidade
+
+        if quantidade > 0:
+            self.__preco_medio_compra = self.preco_atual
 
     @property
     def simbolo(self) -> str:
