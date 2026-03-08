@@ -10,65 +10,66 @@ class GestorStock:
 
     @property
     def simbolo(self) -> str:
-
+     #  """Devolve o símbolo da ação."""
         return self.__simbolo
 
     @simbolo.setter
     def simbolo(self, valor: str):
+     # """Define o símbolo da ação. O símbolo deve ser guardado e devolvido sem espaços adicionais e em maiúsculas."""
+        self.__simbolo = valor.strip().upper()
         
 
     @property
     def nome(self) -> str:
-        """Devolve o nome da empresa.
-        O nome deve ser guardado e devolvido sem espaços adicionais e com as iniciais em maiúsculas (Title Case)."""
+     # """Devolve o nome da empresa."""
+        return self.__nome
         
 
     @nome.setter
     def nome(self, valor: str):
-        """Define o nome da empresa."""
-        pass
+     # """Define o nome da empresa."""
+        self.__nome = valor.strip().title()
+
 
     @property
     def preco_atual(self) -> float:
-        """Devolve o preço atual da ação."""
-        pass
+     # """Devolve o preço atual da ação."""
+        return self.__preco_atual
+        
 
     @preco_atual.setter
     def preco_atual(self, valor: float):
-        """Define o preço atual da ação. Deve ser positivo.
-        Se for fornecido um valor negativo ou zero, o preço é colocado a 0."""
-        pass
+     # """Define o preço atual da ação."""
+        self.__preco_atual = float(valor) if valor > 0 else 0.0
+        
 
     @property
     def quantidade(self) -> int:
-        """Devolve a quantidade de ações em carteira."""
-        pass
+     # """Devolve a quantidade de ações em carteira."""
+        return self.__quantidade
 
     @quantidade.setter
     def quantidade(self, valor: int):
-        """Define a quantidade de ações em carteira.
-        Se for fornecido um valor negativo, a quantidade é colocada a 0."""
-        pass
+        self.__quantidade = int(valor) if valor >= 0 else 0
 
     @property
     def preco_medio_compra(self) -> float:
-        """Devolve o preço médio de compra vigente de todo o stock."""
-        pass
+     # """Devolve o preço médio de compra das ações em carteira."""
+        return self.__preco_medio_compra
 
     @preco_medio_compra.setter
     def preco_medio_compra(self, valor: float):
-        """Define o preço médio de compra."""
-        pass
-
+     # """Define o preço médio de compra das ações em carteira."""
+        self.__preco_medio_compra = float(valor)
+        
     @property
     def lucro_realizado(self) -> float:
-        """Devolve o lucro (ou prejuízo) consolidado ao longo de todo o histórico de transações de venda e dividendos fechados."""
-        pass
+     #  """Devolve o lucro ou prejuízo relizado."""
+        return self.__lucro_realizado
 
     @lucro_realizado.setter
     def lucro_realizado(self, valor: float):
-        """Define o lucro realizado."""
-        pass
+        self.__lucro_realizado = float(valor)
 
     def comprar(self, quantidade: int, preco: float) -> bool:
         """Realiza uma compra de ações.
