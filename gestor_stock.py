@@ -130,3 +130,27 @@ class GestorStock:
         self.__lucro_realizado += montante
         return montante
             
+    def __str__(self) -> str:
+     # """Devolve uma representação em string do estado atual do gestor de stock."""
+        valor_total = self.valor_total()
+        lucro_total = self.lucro_realizado + self.lucro_potencial()
+
+        return(
+            f"{'=' * 40}\n"
+            f"POSIÇÃO EM CARTEIRA\n"
+            f"{'=' * 40}\n"
+            f"Símbolo        : {self.simbolo}\n"
+            f"Empresa        : {self.nome}\n"
+            f"{'-' * 40}\n"
+            f"Preço Atual    : {self.preco_atual:>10.2f}$\n"
+            f"Quantidade     : {self.quantidade:>10}\n"
+            f"Valor Total     : {valor_total:>10.2f}$\n"
+            f"{'-' * 40}\n"
+            f"Preço Médio Compra : {self.preco_medio_compra:>10.2f}$\n"
+            f"Lucro Realizado    : {self.lucro_realizado:>10.2f}$\n"
+            f"Lucro Potencial    : {self.lucro_potencial():>10.2f}$\n"
+            f"{'-' * 40}\n"
+            f"Lucro Total        : {lucro_total:>10.2f}$\n"
+            f"{'=' * 40}\n"
+        )
+        
