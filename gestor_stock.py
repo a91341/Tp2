@@ -195,4 +195,71 @@ class GestorStock:
          print(f"{data_str:<20} {tipo:<10} {qtd:>5} {preco:>10.2f}")
 
      print("-" * 50)
+
+
+class Carteira:
+ # """Classe que representa uma carteira com múltiplas ações."""
+
+    def __init__(self):
+        self._posicoes = []
+
+    def adicionar(self, gestor: GestorStock):
+     # """Adiciona um GestorStock à carteira."""
+        self._posicoes.append(gestor)
+
+    def remover(self, simbolo: str) -> bool:
+     # """Remove uma ação da carteira pelo símbolo."""
+        simbolo = simbolo.strip().upper()
+
+        for g in self._posicoes:
+            if g.simbolo == simbolo:
+                self._posicoes.remove(g)
+                return True
+
+        return False
+
+    def obter(self, simbolo: str):
+     # """Obtém um gestor de stock pelo símbolo."""
+        simbolo = simbolo.strip().upper()
+
+        for g in self._posicoes:
+            if g.simbolo == simbolo:
+                return g
+
+        return None
+
+    def valor_total(self) -> float:
+     # """Valor total de mercado da carteira."""
+        return sum(g.valor_total() for g in self._posicoes)
+
+    def lucro_total(self) -> float:
+     # """Lucro global (realizado + potencial)."""
+        return sum(
+            g.lucro_realizado + g.lucro_potencial()
+            for g in self._posicoes
+        )
+
+    def mostrar_carteira(self):
+     # """Mostra um resumo da carteira."""
+        if not self._posicoes:
+            print("Carteira vazia.")
+            return
+
+        print("\nCARTEIRA DE AÇÕES")
+        print("-" * 70)
+        print(f"{'Símbolo':<10}{'Empresa':<20}{'Qtd':>6}{'Preço':>10}{'Valor':>12}")
+        print("-" * 70)
+
+        for g in self._posicoes:
+            print(
+                f"{g.simbolo:<10}"
+                f"{g.nome:<20}"
+                f"{g.quantidade:>6}"
+                f"{g.preco_atual:>10.2f}"
+                f"{g.valor_total():>12.2f}"
+            )
+
+        print("-" * 70)
+        print(f"{'VALOR TOTAL':<46}{self.valor_total():>12.2f}")
+        print(f"{'LUCRO GLOBAL':<46}{self.lucro_total():>12.2f}")
         

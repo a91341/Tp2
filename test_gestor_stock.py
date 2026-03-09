@@ -6,7 +6,7 @@
 # ]
 # ///
 import pytest
-from gestor_stock import GestorStock
+from gestor_stock import GestorStock, Carteira
 
 @pytest.fixture
 def gestor():
