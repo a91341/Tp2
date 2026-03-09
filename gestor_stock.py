@@ -1,4 +1,5 @@
 # gestor_stock.py
+from datetime import datetime
 
 class GestorStock:
 
@@ -9,6 +10,7 @@ class GestorStock:
         self.__quantidade = 0
         self.__preco_medio_compra = 0.0
         self.__lucro_realizado = 0.0
+        self.__historico = []
 
         self.simbolo = simbolo
         self.nome = nome
@@ -83,6 +85,11 @@ class GestorStock:
      # """Define o lucro ou prejuízo relizado."""
         self.__lucro_realizado = float(valor)
 
+    @property
+    def historico(self):
+     # """Devolve o histórico de transações."""
+        return self.__historico
+
     def comprar(self, quantidade: int, preco: float) -> bool:
      # """Realiza uma compra de ações.
         if quantidade <= 0 or preco <= 0:
@@ -94,6 +101,13 @@ class GestorStock:
         self.__preco_medio_compra = (total_antigo + total_novo) / nova_quantidade
         self.__quantidade = nova_quantidade
         self.__preco_atual = preco
+
+        self.__historico.append({
+        "data": datetime.now(),
+        "tipo": "compra",
+        "quantidade": quantidade,
+        "preco": preco
+        })
 
         return True
 
@@ -110,6 +124,13 @@ class GestorStock:
 
         self.__quantidade = self.__quantidade - quantidade
         self.__preco_atual = preco
+
+        self.__historico.append({
+        "data": datetime.now(),
+        "tipo": "venda",
+        "quantidade": quantidade,
+        "preco": preco
+     })
 
         return True
     
@@ -153,4 +174,25 @@ class GestorStock:
             f"Lucro Total        : {lucro_total:>10.2f}$\n"
             f"{'=' * 40}\n"
         )
+    
+    def mostrar_historico(self):
+     # """Mostra o histórico de transações numa tabela formatada."""
+     if not self.__historico:
+        print("Nenhuma transação realizada.")
+        return
+     
+     print(f"\nHistórico de Transações - {self.simbolo}")
+     print(f"{'-' * 50}\n")
+     print(f"{'Data':<20} {'Tipo':<10} {'Qtd':>5} {'Preço':>10}")
+     print(f"{'-' * 50}\n")
+
+     for t in self.__historico:
+         data_str = t['data'].strftime("%Y-%m-%d %H:%M:%S")
+         tipo = t["tipo"]
+         qtd = t["quantidade"]
+         preco = t["preco"]
+
+         print(f"{data_str:<20} {tipo:<10} {qtd:>5} {preco:>10.2f}")
+
+     print("-" * 50)
         
